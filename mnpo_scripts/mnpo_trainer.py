@@ -31,10 +31,7 @@ class MNPOTrainer(SimPOTrainer):
             reference_rejected_logps: torch.FloatTensor,
             history_logps_list: List[Tuple[torch.FloatTensor, torch.FloatTensor]],
     ) -> Tuple[torch.FloatTensor, torch.FloatTensor, torch.FloatTensor]:
-        """
-        Computes the MNPO loss.
-        This is a direct adaptation of your provided loss function.
-        """
+
         pi_logratios = policy_chosen_logps - policy_rejected_logps
         ref_logratios = reference_chosen_logps - reference_rejected_logps
 

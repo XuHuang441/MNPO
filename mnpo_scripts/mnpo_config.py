@@ -6,11 +6,11 @@ from typing import List, Optional, Tuple, Union
 @dataclass
 class MNPOConfig(SimPOConfig):
     """
-    Configuration class for INPOTrainer.
+    Configuration class for MNPOTrainer.
     """
     # The mixing ratio between the reference model and the historical models.
     ratio: float = 1/3
-    # The eta parameter for the INPO loss.
+    # The eta parameter for the MNPO loss.
     eta: float = 0.0075
     beta: float = 10
     # The maximum number of historical models to consider.
