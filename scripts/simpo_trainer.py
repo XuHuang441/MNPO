@@ -751,7 +751,7 @@ class SimPOTrainer(Trainer):
             return (loss, metrics)
         return loss
 
-    def get_batch_samples(self, model, batch: Dict[str, torch.LongTensor]) -> Tuple[str, str]:
+    def generate_samples_for_eval(self, model, batch: Dict[str, torch.LongTensor]) -> Tuple[str, str]:
         """Generate samples from the model and reference model for the given batch of inputs."""
 
         # If one uses `generate_during_eval` with peft + bf16, we need to explicitly call generate with
@@ -771,6 +771,15 @@ class SimPOTrainer(Trainer):
         policy_output_decoded = self.tokenizer.batch_decode(policy_output, skip_special_tokens=True)
 
         return policy_output_decoded
+
+    def get_batch_samples(self, epoch_iterator, num_batches, device):
+        """
+        Adapter for HF Trainer's internal API.
+
+        This is used by `Trainer._inner_training_loop`, we don't want to change
+        its behavior, so we just defer to the parent implementation.
+        """
+        return super().get_batch_samples(epoch_iterator, num_batches, device)
 
     def prediction_step(
         self,
@@ -842,7 +851,7 @@ class SimPOTrainer(Trainer):
             random_batch = self.data_collator(random_batch_dataset)
             random_batch = self._prepare_inputs(random_batch)
 
-            policy_output_decoded = self.get_batch_samples(self.model, random_batch)
+            policy_output_decoded = self.generate_samples_for_eval(self.model, random_batch)
 
             self.log(
                 {

@@ -32,7 +32,7 @@ warmup_ratio: 0.1
 optim: adamw_torch
 seed: 42
 
-gradient_accumulation_steps: 8
+gradient_accumulation_steps: 16
 gradient_checkpointing: true
 gradient_checkpointing_kwargs:
   use_reentrant: false
@@ -47,7 +47,6 @@ max_prompt_length: 1800
 # Evaluation & Logging
 # ================================
 do_eval: false
-evaluation_strategy: "no"
 logging_steps: 5
 log_level: info
 #eval_steps: 5
