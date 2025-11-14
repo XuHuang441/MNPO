@@ -874,21 +874,18 @@ class SimPOTrainer(Trainer):
 
         return initial_output
 
-    def log(self, logs: Dict[str, float]) -> None:
+    def log(self, logs: Dict[str, float], *args, **kwargs) -> None:
         """
         Log `logs` on the various objects watching training, including stored metrics.
 
-        Args:
-            logs (`Dict[str, float]`):
-                The values to log.
         """
-        # logs either has 'loss' or 'eval_loss'
         train_eval = "train" if "loss" in logs else "eval"
-        # Add averaged stored metrics to logs
+
         for key, metrics in self._stored_metrics[train_eval].items():
             logs[key] = torch.tensor(metrics).mean().item()
         del self._stored_metrics[train_eval]
-        return super().log(logs)
+
+        return super().log(logs, *args, **kwargs)
 
     @wraps(Trainer.push_to_hub)
     def push_to_hub(self, commit_message: Optional[str] = "End of training", blocking: bool = True, **kwargs) -> str:
