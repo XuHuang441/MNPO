@@ -14,7 +14,7 @@ history_args=""
         history_args="--history_paths ${history_paths[*]} "
     fi
 
-accelerate launch --num_processes=2 -m mnpo_scripts.precompute \
+/hai/scratch/fangwu97/miniconda3/envs/sim/bin/accelerate launch --num_processes=2 -m mnpo_scripts.precompute \
     --run_name "mnpo_iter1_precompute" \
     --model_name_or_path /hai/scratch/fangwu97/xu/cache/google/gemma-2-9b-it/ \
     --ref_model /hai/scratch/fangwu97/xu/cache/google/gemma-2-9b-it/ \
