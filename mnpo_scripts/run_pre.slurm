@@ -22,4 +22,4 @@ history_args=""
     --output_dir /hai/scratch/fangwu97/xu/SimPO_slurm/data/mnpo_iter1/pref \
     ${history_args} \
     --cache_dir /hai/scratch/fangwu97/xu/cache \
-    --sanity_check True
+    --sanity_check False
