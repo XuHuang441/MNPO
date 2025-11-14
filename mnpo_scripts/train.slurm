@@ -2,9 +2,8 @@
 #SBATCH --account=yejin
 #SBATCH -p hai-lo
 #SBATCH --gres=gpu:8
-#SBATCH --job-name=mpo
+#SBATCH --job-name=mpo_train
 #SBATCH --output=output_armo.log
-#SBATCH --mem=128G
 
 set -e
 
