@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --account=yejin
-#SBATCH -p hai-lo
+#SBATCH -p yejin
 #SBATCH --gres=gpu:2
 #SBATCH --job-name=mpo_train
 #SBATCH --output=output_armo.log
