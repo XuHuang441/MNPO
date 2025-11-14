@@ -47,7 +47,6 @@ max_prompt_length: 1800
 # Evaluation & Logging
 # ================================
 do_eval: false
-evaluation_strategy: "no"
 logging_steps: 5
 log_level: info
 #eval_steps: 5
