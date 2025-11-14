@@ -9,7 +9,7 @@ class MNPOConfig(SimPOConfig):
     Configuration class for MNPOTrainer.
     """
     # The mixing ratio between the reference model and the historical models.
-    ratio: float = 1/3
+    ratio: float = 0.3333
     # The eta parameter for the MNPO loss.
     eta: float = 0.0075
     beta: float = 10
