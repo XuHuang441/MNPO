@@ -21,7 +21,8 @@ from transformers import AutoTokenizer, BitsAndBytesConfig, PreTrainedTokenizer
 from transformers.trainer_utils import get_last_checkpoint
 
 from accelerate import Accelerator
-from huggingface_hub import list_repo_files, RepositoryNotFoundError, HFValidationError
+from huggingface_hub import list_repo_files
+from huggingface_hub.errors import RepositoryNotFoundError, HFValidationError
 from peft import LoraConfig, PeftConfig
 
 from .configs import DataArguments, DPOConfig, ModelArguments, SFTConfig
