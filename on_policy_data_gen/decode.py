@@ -17,8 +17,6 @@ parser.add_argument('--top_p', type=float, default=0.95,
                     help='Top-p probability for sampling')
 parser.add_argument('--max_tokens', type=int, default=4096,
                     help='Maximum number of tokens to generate')
-parser.add_argument('--seed', type=int, default=42,
-                    help='Random seed')
 parser.add_argument('--output_dir', type=str, default="datasets/gemma2_ultrafeedback",
                     help='Output directory')
 parser.add_argument('--num_gpu', type=int, default=4)
@@ -26,6 +24,8 @@ parser.add_argument('--sanity_check', action='store_true', help="Enable sanity c
 parser.add_argument('--batch_size', type=int, default=8)
 parser.add_argument('--cache_dir', type=str, default=None,
                     help='Cache directory for model and dataset')
+parser.add_argument('--seeds', type=int, nargs='+', default=[42],
+                    help='A list of random seeds to run')
 args = parser.parse_args()
 
 print(args)
@@ -58,35 +58,40 @@ prompts = sorted(list(set(train_dataset['prompt'])))
 
 conversations = [tokenizer.apply_chat_template([{'role': 'user', 'content': prompt}], tokenize=False, add_generation_prompt=True) for prompt in prompts]
 
-sampling_params = SamplingParams(temperature=args.temperature, 
-                                 top_p=args.top_p, 
-                                 max_tokens=args.max_tokens, 
-                                 seed=args.seed,)
-output_data = []
+for seed in args.seeds:
+    print(f"\n--- Processing for seed {seed} ---")
 
-print(f"Submitting {len(conversations)} prompts to vLLM in a single batch...")
+    sampling_params = SamplingParams(temperature=args.temperature,
+                                     top_p=args.top_p,
+                                     max_tokens=args.max_tokens,
+                                     seed=seed,)
+    output_data = []
 
-try:
+    print(f"Submitting {len(conversations)} prompts to vLLM in a single batch...")
 
-    all_outputs = llm.generate(conversations, sampling_params)
+    try:
 
-    print("Generation complete. Processing outputs...")
+        all_outputs = llm.generate(conversations, sampling_params)
 
-    for i, output in enumerate(tqdm(all_outputs)):
-        output_data.append({
-            'prompt': prompts[i],
-            "format_prompt": output.prompt,
-            'generated_text': output.outputs[0].text,
-        })
+        print("Generation complete. Processing outputs...")
 
-except Exception as e:
-    print(f"Generation failed with error: {e}")
+        for i, output in enumerate(tqdm(all_outputs)):
+            output_data.append({
+                'prompt': prompts[i],
+                "format_prompt": output.prompt,
+                'generated_text': output.outputs[0].text,
+            })
 
-output_file = f'output_{args.seed}.json'
-if not os.path.exists(args.output_dir):
-    os.makedirs(args.output_dir)
+    except Exception as e:
+        print(f"Generation failed with error: {e}")
 
-with open(os.path.join(args.output_dir, output_file), 'w') as f:
-    json.dump(output_data, f, indent=4)
+    output_file = f'output_{seed}.json'
+    if not os.path.exists(args.output_dir):
+        os.makedirs(args.output_dir)
 
-print(f"Outputs saved to {os.path.join(args.output_dir, output_file)}")
+    with open(os.path.join(args.output_dir, output_file), 'w') as f:
+        json.dump(output_data, f, indent=4)
+
+    print(f"Outputs saved to {os.path.join(args.output_dir, output_file)}")
+
+print("\nAll seeds processed.")
