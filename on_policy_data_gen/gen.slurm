@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --account=yejin
 #SBATCH -p hai-lo
-#SBATCH --gres=gpu:4
+#SBATCH --gres=gpu:1
 #SBATCH --job-name=mpo_infer
 #SBATCH --output=output_infer.log
 #SBATCH --mem=128G
