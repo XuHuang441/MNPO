@@ -5,7 +5,6 @@ os.environ["VLLM_ATTENTION_BACKEND"] = "FLASHINFER" # this is recommended for ge
 import argparse
 import json
 from tqdm import tqdm
-from more_itertools import chunked
 
 parser = argparse.ArgumentParser(description='Decode with vllm')
 parser.add_argument('--data_dir', type=str, default="HuggingFaceH4/ultrafeedback_binarized",
@@ -63,20 +62,25 @@ sampling_params = SamplingParams(temperature=args.temperature,
                                  top_p=args.top_p, 
                                  max_tokens=args.max_tokens, 
                                  seed=args.seed,)
-batched_prompts = list(chunked(conversations, args.batch_size))
 output_data = []
 
-for batch_prompts in tqdm(batched_prompts):
-    try:
-        outputs = llm.generate(batch_prompts, sampling_params)
-        for i, output in enumerate(outputs):
-            output_data.append({
-                'prompt': batch_prompts[i],
-                "format_prompt": output.prompt,
-                'generated_text': output.outputs[0].text,
-            })
-    except Exception as e:
-        print(f"Batch failed with error: {e}")
+print(f"Submitting {len(conversations)} prompts to vLLM in a single batch...")
+
+try:
+
+    all_outputs = llm.generate(conversations, sampling_params)
+
+    print("Generation complete. Processing outputs...")
+
+    for i, output in enumerate(tqdm(all_outputs)):
+        output_data.append({
+            'prompt': prompts[i],
+            "format_prompt": output.prompt,
+            'generated_text': output.outputs[0].text,
+        })
+
+except Exception as e:
+    print(f"Generation failed with error: {e}")
 
 output_file = f'output_{args.seed}.json'
 if not os.path.exists(args.output_dir):
