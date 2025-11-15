@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --account=yejin
-#SBATCH -p hai-lo
-#SBATCH --gres=gpu:1
+#SBATCH -p yejin
+#SBATCH --gres=gpu:2
 #SBATCH --job-name=mpo_infer
 #SBATCH --output=output_infer.log
 #SBATCH --mem=128G
@@ -15,5 +15,5 @@ for SEED in 13 21 42 79 100; do
         --output_dir /hai/scratch/fangwu97/xu/SimPO_slurm/datasets/gemma2_ultrafeedback/mnpo_iter2_armo \
         --batch_size 96 \
         --cache_dir /hai/scratch/fangwu97/xu/cache \
-        --num_gpu 4
+        --num_gpu 2
 done
