@@ -56,7 +56,7 @@ log_level: info
 # ================================
 # Saving & Reporting
 # ================================
-save_strategy: epoch
+save_strategy: "no"
 save_total_limit: 1
 push_to_hub: false
 
