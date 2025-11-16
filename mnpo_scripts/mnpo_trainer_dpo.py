@@ -82,7 +82,8 @@ class MNPOTrainer(SimPOTrainer):
 
         losses_het = 0.1 * (pi_logratios - weighted_logratios) ** 2
 
-        losses = losses_dpo + losses_het
+        # losses = losses_dpo + losses_het
+        losses = losses_dpo # for ablation
 
         chosen_rewards = beta * (policy_chosen_logps - reference_chosen_logps).detach()
         rejected_rewards = beta * (policy_rejected_logps - reference_rejected_logps).detach()
