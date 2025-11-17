@@ -13,7 +13,7 @@ set -e
     --run_name "mnpo_iter1_precompute" \
     --model_name_or_path /hai/scratch/fangwu97/xu/cache/google/gemma-2-9b-it/ \
     --ref_model /hai/scratch/fangwu97/xu/cache/google/gemma-2-9b-it/ \
-    --train_dir /hai/scratch/fangwu97/xu/SimPO_slurm/datasets/gemma2_ultrafeedback/gemma2_ufb_part1_split1_athene_scored.jsonl \
+    --train_dir /hai/scratch/fangwu97/xu/SimPO_slurm/datasets/gemma2_ultrafeedback/mnpo_iter1_athene_scored.jsonl \
     --output_dir /hai/scratch/fangwu97/xu/SimPO_slurm/data/mnpo_iter1_athene/pref \
     --cache_dir /hai/scratch/fangwu97/xu/cache \
     --sanity_check False
