@@ -118,8 +118,6 @@ def main():
         raise RuntimeError("Expected 3 arguments (Model, Data, Training), got 1.")
 
     # =====================================================================================
-    print(training_args.weights)
-    sys.exit()
     #######
     # Setup
     #######
