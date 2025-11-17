@@ -48,6 +48,6 @@ set -e
     --train_dir /hai/scratch/fangwu97/xu/SimPO_slurm/datasets/gemma2_ultrafeedback/mnpo_iter3_armo_scored.jsonl \
     --output_dir /hai/scratch/fangwu97/xu/SimPO_slurm/data/mnpo_iter3_armo/pref \
     --history_paths /hai/scratch/fangwu97/xu/MNPO/outputs/gemma-2-9b-it_mnpo_stage_1_skywork_inpo_iter1_20k \
-    /hai/scratch/fangwu97/xu/MNPO/outputs/gemma-2-9b-it_mnpo_stage_2_skywork_ratio0.85_eta0.005 \
+    /hai/scratch/fangwu97/xu/MNPO/outputs/gemma-2-9b-it_mnpo_stage_2_skywork_ratio0.85_eta0.01 \
     --cache_dir /hai/scratch/fangwu97/xu/cache \
     --sanity_check False
