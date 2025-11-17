@@ -5,14 +5,17 @@
 #SBATCH --job-name=mpo_train_array
 #SBATCH --output=output_armo_%A_%a.log
 #SBATCH --mem=128G
-#SBATCH --array=0-2
+#SBATCH --array=0-4
 
 set -e
 
 CONFIGS=(
-  "/hai/scratch/fangwu97/xu/MNPO/training_configs/gemma-2-9b-it-mnpo-iter2-armo-ratio0.83.yaml"
-  "/hai/scratch/fangwu97/xu/MNPO/training_configs/gemma-2-9b-it-mnpo-iter2-armo-ratio0.84.yaml"
+  "/hai/scratch/fangwu97/xu/MNPO/training_configs/gemma-2-9b-it-mnpo-iter3-armo.yaml"
+  "/hai/scratch/fangwu97/xu/MNPO/training_configs/gemma-2-9b-it-mnpo-iter3-armo2.yaml"
   "/hai/scratch/fangwu97/xu/MNPO/training_configs/gemma-2-9b-it-mnpo-iter2-armo-ratio0.86.yaml"
+  "/hai/scratch/fangwu97/xu/MNPO/training_configs/gemma-2-9b-it-mnpo-iter1-athene2.yaml"
+  "/hai/scratch/fangwu97/xu/MNPO/training_configs/gemma-2-9b-it-mnpo-iter1-athene3.yaml"
+  "/hai/scratch/fangwu97/xu/MNPO/training_configs/gemma-2-9b-it-mnpo-iter1-athene4.yaml"
 )
 
 CONFIG_PATH=${CONFIGS[$SLURM_ARRAY_TASK_ID]}
