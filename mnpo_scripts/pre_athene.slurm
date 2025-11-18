@@ -6,6 +6,8 @@
 #SBATCH --output=output_ath.log
 #SBATCH --mem=128G
 
+# shortcut: sbatch mnpo_scripts/pre_athene.slurm
+
 set -e
 
 # iter1 athne, since armo is given in the dataset

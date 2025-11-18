@@ -25,8 +25,8 @@ bf16: true
 eta: 0.005
 ratio: 0.85
 weights:
-  - 0.2
-  - 0.8
+  - 0
+  - 1
 max_history_t: 2
 beta: 10
 learning_rate: 5.0e-7
@@ -69,5 +69,5 @@ report_to:
 # ================================
 # Output
 # ================================
-output_dir: /hai/scratch/fangwu97/xu/MNPO/outputs/gemma-2-9b-it_mnpo_stage_3_armo_ratio0.85_eta0.005_weights0.2-0.8
-run_name: gemma-2-9b-it_mnpo_stage_3_armo_ratio0.85_eta0.005_weights0.2-0.8
+output_dir: /hai/scratch/fangwu97/xu/MNPO/outputs/gemma-2-9b-it_mnpo_stage_3_armo_ratio0.85_eta0.005_weights0-1
+run_name: gemma-2-9b-it_mnpo_stage_3_armo_ratio0.85_eta0.005_weights0-1
