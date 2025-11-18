@@ -8,6 +8,8 @@
 
 set -e
 
+# sbatch mnpo_scripts/train_athene.slurm
+
 # mnpo loss
 ACCELERATE_LOG_LEVEL=info /hai/scratch/fangwu97/miniconda3/envs/sim/bin/accelerate launch \
     --config_file accelerate_configs/deepspeed_zero3.yaml \

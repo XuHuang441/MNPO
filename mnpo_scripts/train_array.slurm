@@ -3,17 +3,19 @@
 #SBATCH -p yejin
 #SBATCH --gres=gpu:4
 #SBATCH --job-name=mpo_train_array
-#SBATCH --output=output_armo_%A_%a.log
+#SBATCH --output=logs/output_armo_%A_%a.log
 #SBATCH --mem=128G
 #SBATCH --array=0-3
+
+# sbatch mnpo_scripts/train_array.slurm
 
 set -e
 
 CONFIGS=(
-  "/hai/scratch/fangwu97/xu/MNPO/training_configs/gemma-2-9b-it-mnpo-iter2-athene.yaml"
-  "/hai/scratch/fangwu97/xu/MNPO/training_configs/gemma-2-9b-it-mnpo-iter2-athene2.yaml"
-  "/hai/scratch/fangwu97/xu/MNPO/training_configs/gemma-2-9b-it-mnpo-iter2-athene3.yaml"
-  "/hai/scratch/fangwu97/xu/MNPO/training_configs/gemma-2-9b-it-mnpo-iter2-athene4.yaml"
+  "/hai/scratch/fangwu97/xu/MNPO/training_configs/gemma-2-9b-it-mnpo-iter2-athene5.yaml"
+  "/hai/scratch/fangwu97/xu/MNPO/training_configs/gemma-2-9b-it-mnpo-iter2-athene6.yaml"
+  "/hai/scratch/fangwu97/xu/MNPO/training_configs/gemma-2-9b-it-mnpo-iter2-athene7.yaml"
+  "/hai/scratch/fangwu97/xu/MNPO/training_configs/gemma-2-9b-it-mnpo-iter2-athene8.yaml"
 )
 
 CONFIG_PATH=${CONFIGS[$SLURM_ARRAY_TASK_ID]}
