@@ -7,6 +7,8 @@
 #SBATCH --error=logs/output_iathene.err
 #SBATCH --mem=128G
 
+# sbatch on_policy_data_gen/gen_athene.slurm
+
 # iter2
 #stdbuf -oL -eL /hai/scratch/fangwu97/miniconda3/envs/inpo/bin/python -u -m on_policy_data_gen.decode \
 #        --data_dir /hai/scratch/fangwu97/xu/SimPO_slurm/data/gemma2_ufb_part1_20k/gemma2_ufb_part1_split2.jsonl \
