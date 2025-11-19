@@ -8,7 +8,7 @@
 
 set -e
 
-# sbatch mnpo_scripts/train.slurm
+# sbatch mnpo_scripts/train_test.slurm
 
 # mnpo loss
 ACCELERATE_LOG_LEVEL=info /hai/scratch/fangwu97/miniconda3/envs/sim/bin/accelerate launch \
