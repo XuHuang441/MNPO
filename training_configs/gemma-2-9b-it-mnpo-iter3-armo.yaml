@@ -50,7 +50,7 @@ max_prompt_length: 1800
 # Evaluation & Logging
 # ================================
 do_eval: false
-logging_steps: 5
+logging_steps: 2
 log_level: info
 #eval_steps: 5
 #metric_for_best_model: eval_loss
