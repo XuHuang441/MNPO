@@ -8,6 +8,7 @@ api_key = os.getenv("OPEN_ROUTER_API_KEY")
 
 task_cfg = TaskConfig(
     model='openai/gpt-5', # Created Aug 7, 2025
+    generation_config={"reasoning_effort": "minimal"},
     api_url='https://openrouter.ai/api/v1',
     api_key=api_key,
     eval_type=EvalType.SERVICE,
@@ -24,7 +25,7 @@ task_cfg = TaskConfig(
         'api_url': 'https://openrouter.ai/api/v1',
         'api_key': api_key,
     },
-    use_cache="/hai/scratch/fangwu97/xu/MNPO/outputs/20251119_191645"
+    # use_cache="/hai/scratch/fangwu97/xu/MNPO/outputs/20251119_191645"
 )
 
 
