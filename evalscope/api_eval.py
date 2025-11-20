@@ -2,6 +2,8 @@ from evalscope import TaskConfig, run_task
 from evalscope.constants import EvalType, JudgeStrategy
 import os
 
+# python evalscope/api_eval.py
+
 api_key = os.getenv("OPEN_ROUTER_API_KEY")
 
 task_cfg = TaskConfig(
