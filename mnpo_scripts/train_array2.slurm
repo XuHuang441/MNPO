@@ -12,8 +12,8 @@
 set -e
 
 CONFIGS=(
+  "/hai/scratch/fangwu97/xu/MNPO/training_configs/gemma-2-9b-it-mnpo-iter2-skywork-3pl.yaml"
   "/hai/scratch/fangwu97/xu/MNPO/training_configs/gemma-2-9b-it-mnpo-iter2-skywork-3pl2.yaml"
-  "/hai/scratch/fangwu97/xu/MNPO/training_configs/gemma-2-9b-it-mnpo-iter2-skywork-3pl3.yaml"
 
 )
 
