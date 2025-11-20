@@ -7,14 +7,14 @@ api_key = os.getenv("OPEN_ROUTER_API_KEY")
 task_cfg = TaskConfig(
     model='openai/gpt-5', # Created Aug 7, 2025
     api_url='https://openrouter.ai/api/v1',
-    api_key= api_key,
+    api_key=api_key,
     eval_type=EvalType.SERVICE,
     datasets=[
         'arena_hard'
     ],
     eval_batch_size=12,
     judge_worker_num=12,
-    # limit=5,
+    limit=5,
     judge_strategy=JudgeStrategy.AUTO,
     judge_model_args={
         'model_id': 'gpt-5-mini',
