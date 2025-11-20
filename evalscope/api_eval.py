@@ -16,7 +16,7 @@ task_cfg = TaskConfig(
     ],
     eval_batch_size=12,
     judge_worker_num=12,
-    limit=5,
+    # limit=5,
     judge_strategy=JudgeStrategy.AUTO,
     judge_model_args={
         'model_id': 'gpt-5-mini',
