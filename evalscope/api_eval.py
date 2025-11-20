@@ -25,7 +25,7 @@ task_cfg = TaskConfig(
         'api_url': 'https://openrouter.ai/api/v1',
         'api_key': api_key,
     },
-    # use_cache="/hai/scratch/fangwu97/xu/MNPO/outputs/20251119_212223"
+    use_cache="/hai/scratch/fangwu97/xu/MNPO/outputs/20251120_005754"
 )
 
 
