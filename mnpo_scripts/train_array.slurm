@@ -5,16 +5,16 @@
 #SBATCH --job-name=mpo_train_array
 #SBATCH --output=logs/output_armo_%A_%a.log
 #SBATCH --mem=128G
-#SBATCH --array=0-1
+#SBATCH --array=0-2
 
 # sbatch mnpo_scripts/train_array.slurm
 
 set -e
 
 CONFIGS=(
-  "/hai/scratch/fangwu97/xu/MNPO/training_configs/gemma-2-9b-it-mnpo-iter2-armo-3pl.yaml"
-  "/hai/scratch/fangwu97/xu/MNPO/training_configs/gemma-2-9b-it-mnpo-iter2-armo-3pl2.yaml"
-
+  "/hai/scratch/fangwu97/xu/MNPO/training_configs/gemma-2-9b-it-mnpo-iter2-skywork-3pl4"
+  "/hai/scratch/fangwu97/xu/MNPO/training_configs/gemma-2-9b-it-mnpo-iter2-skywork-3pl5"
+  "/hai/scratch/fangwu97/xu/MNPO/training_configs/gemma-2-9b-it-mnpo-iter2-skywork-3pl6"
 )
 
 export MASTER_PORT=$((29600 + SLURM_ARRAY_TASK_ID))
