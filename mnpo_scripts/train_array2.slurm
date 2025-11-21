@@ -28,4 +28,4 @@ echo "Using config: $CONFIG_PATH"
 ACCELERATE_LOG_LEVEL=info /hai/scratch/fangwu97/miniconda3/envs/sim/bin/accelerate launch \
     --config_file accelerate_configs/deepspeed_zero3.yaml \
     -m mnpo_scripts.run_mnpo \
-    --config_path "$CONFIG_PATH"
+    training_configs/"$CONFIG_PATH"

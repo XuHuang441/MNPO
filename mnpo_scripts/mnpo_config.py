@@ -17,7 +17,3 @@ class MNPOConfig(SimPOConfig):
     max_history_t: int = 2
     # The weights for historical models.
     weights: List[float] = field(default_factory=lambda: [1.0, 0.0]) # [t-1, t-2 ....]
-    config_path: str = field(
-        default="",
-        metadata={"help": "Path to the YAML config file."}
-    )
