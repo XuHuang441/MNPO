@@ -112,8 +112,8 @@ def main():
     # =====================================================================================
     parser = H4ArgumentParser((ModelArguments, DataArguments, MNPOConfig))
     parsed = parser.parse()
-    print("Arguments OK!")
-    return  # <= 加这句话
+    # print("Arguments OK!")
+    # return  # <= 加这句话
     if isinstance(parsed, tuple):
         model_args, data_args, training_args = parsed
     else:
