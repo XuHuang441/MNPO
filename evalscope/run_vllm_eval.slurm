@@ -10,8 +10,8 @@
 set -euo pipefail
 
 # ====== 1. 基本配置 ======
-MODEL_NAME="google/gemma-2-9b-it"           # HF 上的模型名称 / 本地路径
-MODEL_BASENAME="gemma-2-9b-it"              # 对外暴露的名称 & eval 中使用的名称
+MODEL_NAME="/hai/scratch/fangwu97/xu/MNPO/outputs/gemma-2-9b-it_mnpo_stage_2_armo_beta1_ratio0.8_eta0.005_weights0.75-0.25_3pl"           # HF 上的模型名称 / 本地路径
+MODEL_BASENAME="gemma-2-9b-it_mnpo_stage_2_armo_beta1_ratio0.8_eta0.005_weights0.75-0.25_3pl"              # 对外暴露的名称 & eval 中使用的名称
 PORT=8000                                   # vLLM HTTP 端口
 LOG_DIR="logs"
 mkdir -p "${LOG_DIR}"
@@ -47,14 +47,16 @@ while true; do
   sleep 10
 done
 
-# ====== 4. 运行评测脚本（这里用 llm_judge.py 做示例） ======
 echo "$(date '+%Y-%m-%d %H:%M:%S') Starting eval..." \
   >> "${LOG_DIR}/judge-${MODEL_BASENAME}.out"
 
-python test.py \
+/hai/scratch/fangwu97/miniconda3/envs/evalscope/bin/evalscope eval \
   --model "${MODEL_BASENAME}" \
-  --port "${PORT}" \
-  --datasets alpaca_eval \
+  --api-url "http://127.0.0.1:${PORT}/v1" \
+  --api-key EMPTY \
+  --eval-type openai_api \
+  --datasets mmlu_redux ifeval gpqa_diamond gsm8k truthful_qa hellaswag humaneval arc winogrande aime24 \
+  --limit 5 \
   >> "${LOG_DIR}/judge-${MODEL_BASENAME}.out" 2>&1
 
 EVAL_STATUS=$?
