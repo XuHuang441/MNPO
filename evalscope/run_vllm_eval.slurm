@@ -20,7 +20,7 @@ mkdir -p "${LOG_DIR}"
 echo "$(date '+%Y-%m-%d %H:%M:%S') Starting vLLM server..." \
   | tee -a "${LOG_DIR}/judge-${MODEL_BASENAME}.out"
 
-python -m vllm.entrypoints.openai.api_server \
+/hai/scratch/fangwu97/miniconda3/envs/evalscope/bin/python -m vllm.entrypoints.openai.api_server \
   --model "${MODEL_NAME}" \
   --served-model-name "${MODEL_BASENAME}" \
   --trust-remote-code \
