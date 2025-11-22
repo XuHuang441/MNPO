@@ -13,7 +13,7 @@ set -e
 
 CONFIGS=(
   "/hai/scratch/fangwu97/xu/MNPO/training_configs/gemma-2-9b-it-mnpo-iter2-armo-td1.yaml"
-  "/hai/scratch/fangwu97/xu/MNPO/training_configs/gemma-2-9b-it-mnpo-iter2-armo-td3.yaml"
+  "/hai/scratch/fangwu97/xu/MNPO/training_configs/gemma-2-9b-it-mnpo-iter2-armo-td2.yaml"
 )
 
 export MASTER_PORT=$((29600 + SLURM_ARRAY_TASK_ID))
