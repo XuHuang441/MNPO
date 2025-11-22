@@ -21,6 +21,7 @@ CONFIGS=(
 CONFIG_PATH=${CONFIGS[$SLURM_ARRAY_TASK_ID]}
 
 export MASTER_PORT=$((29500 + SLURM_ARRAY_TASK_ID))
+export ACCELERATE_MAIN_PROCESS_PORT=$MASTER_PORT
 
 echo "Using MASTER_PORT: $MASTER_PORT"
 
@@ -28,5 +29,6 @@ echo "Using config: $CONFIG_PATH"
 
 ACCELERATE_LOG_LEVEL=info /hai/scratch/fangwu97/miniconda3/envs/sim/bin/accelerate launch \
     --config_file accelerate_configs/deepspeed_zero3.yaml \
+    --main_process_port $MASTER_PORT \
     -m mnpo_scripts.run_mnpo \
     "$CONFIG_PATH"
