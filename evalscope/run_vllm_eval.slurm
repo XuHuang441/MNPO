@@ -3,7 +3,7 @@
 #SBATCH -p yejin
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-task=8
-#SBATCH --mem=64G
+#SBATCH --mem=128G
 #SBATCH --job-name=vllm_eval
 #SBATCH --output=logs/slurm_vllm_eval_%j.log
 
@@ -56,7 +56,7 @@ echo "$(date '+%Y-%m-%d %H:%M:%S') Starting eval..." \
   --api-key EMPTY \
   --eval-type openai_api \
   --datasets mmlu_redux ifeval gpqa_diamond gsm8k truthful_qa hellaswag humaneval arc winogrande aime24 \
-  --limit 5 \
+  --use_cache "/hai/scratch/fangwu97/xu/MNPO/outputs/20251122_041844" \
   >> "${LOG_DIR}/judge-${MODEL_BASENAME}.out" 2>&1
 
 EVAL_STATUS=$?
