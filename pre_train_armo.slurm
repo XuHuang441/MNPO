@@ -14,13 +14,13 @@ MNPO_ROOT=$PROJECT_ROOT/MNPO
 CACHE_DIR=$PROJECT_ROOT/cache
 
 # === 实验相关（经常改的） ===
-POLICY_MODEL=$MNPO_ROOT/outputs/gemma-2-9b-it_mnpo_stage_2_armo_ratio1_eta0.005
+POLICY_MODEL=$MNPO_ROOT/outputs/gemma-2-9b-it_mnpo_stage_2_armo_beta10_ratio0.33_eta0.0075_td
 REF_MODEL=$CACHE_DIR/google/gemma-2-9b-it                                      # ref model 路径
 
 DATA_SPLIT=$SIMPO_ROOT/data/gemma2_ufb_part1_20k/gemma2_ufb_part1_split3.jsonl
-GEN_DIR=$SIMPO_ROOT/datasets/gemma2_ultrafeedback/mnpo_iter2_armo_abl         # decode & post_process 输出目录
+GEN_DIR=$SIMPO_ROOT/datasets/gemma2_ultrafeedback/mnpo_iter3_armo_abl         # decode & post_process 输出目录
 SCORED_FILE=${GEN_DIR}_scored.jsonl                                            # armo 打分输出 + precompute 输入
-PREF_DIR=$SIMPO_ROOT/data/mnpo_iter2_armo_abl/pref # precompute 输出目录
+PREF_DIR=$SIMPO_ROOT/data/mnpo_iter3_armo_abl/pref # precompute 输出目录
 
 export HF_HOME=$SCRATCH_ROOT/hf_cache
 
