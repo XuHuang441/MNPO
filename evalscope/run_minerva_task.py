@@ -1,8 +1,8 @@
 # run_minerva_task.py
 import os
 import argparse
-from evalscope.config import TaskConfig, EvalType, JudgeStrategy
-from evalscope.runner import run_task  # 具体 import 以你实际为准
+from evalscope import TaskConfig, run_task
+from evalscope.constants import EvalType, JudgeStrategy
 
 def main():
     parser = argparse.ArgumentParser()
