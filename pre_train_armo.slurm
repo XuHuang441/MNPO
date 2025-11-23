@@ -6,6 +6,8 @@
 #SBATCH --output=output_pre_mnpo.log
 #SBATCH --mem=128G
 
+set -e
+
 # === 通用路径 ===
 SCRATCH_ROOT=/hai/scratch/fangwu97
 PROJECT_ROOT=$SCRATCH_ROOT/xu
@@ -31,7 +33,7 @@ stdbuf -oL -eL /hai/scratch/fangwu97/miniconda3/envs/inpo/bin/python -u -m on_po
     --seeds 13 21 42 79 100 \
     --output_dir $GEN_DIR \
     --cache_dir $CACHE_DIR \
-    --num_gpu 4
+    --num_gpu 2
 
 /hai/scratch/fangwu97/miniconda3/envs/inpo/bin/python on_policy_data_gen/post_process.py \
     --generation_file_dir $GEN_DIR
