@@ -1,9 +1,9 @@
-from datasets import load_from_disk
+from datasets import load_from_disk, DatasetDict
 import math
 
 data_dir = "/hai/scratch/fangwu97/xu/SimPO_slurm/data/mnpo_iter3_armo_dpo_abl/pref_filtered"
-ds = load_from_disk(data_dir)
-train = ds["train"]
+ds = load_from_disk(data_dir)      # 这是 DatasetDict
+train = ds["train"]                # 取出 train split
 
 logp_keys = [
     'reference_chosen_logps',
@@ -22,10 +22,9 @@ def is_good(row):
             return False
     return True
 
-# ⚡️ 过滤掉 bad rows
-filtered = train.filter(is_good)
+filtered_train = train.filter(is_good)
+print("原始数量:", len(train), "过滤后:", len(filtered_train))
 
-print(f"原始数量: {len(train)}, 过滤后数量: {len(filtered)}")
-
-# ⚠️ 若你希望覆盖原数据集
-filtered.save_to_disk(data_dir + "2")
+# 🔴 关键：重新包成 DatasetDict 再保存
+new_ds = DatasetDict({"train": filtered_train})
+new_ds.save_to_disk(data_dir + "2")  # 会得到 dataset_dict.json + train/
