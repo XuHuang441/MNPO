@@ -20,7 +20,7 @@ class MNPOTrainer(SimPOTrainer):
         self.ratio = float(args.ratio)
         self.eta = float(args.eta)
         self.beta = float(args.beta)
-        self.het_loss_weight = getattr(args, "het_loss_weight", 0.0)
+        self.het_loss_weight = float(args.het_loss_weight)
         self.max_history_t = int(args.max_history_t)
         if getattr(args, "history_weights", None):
             self.weights = list(args.history_weights)
