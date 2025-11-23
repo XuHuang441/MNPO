@@ -20,6 +20,7 @@ class MNPOTrainer(SimPOTrainer):
         self.ratio = float(args.ratio)
         self.eta = float(args.eta)
         self.beta = float(args.beta)
+        self.het_loss_weight = getattr(args, "het_loss_weight", 0.0)
         self.max_history_t = int(args.max_history_t)
         if getattr(args, "history_weights", None):
             self.weights = list(args.history_weights)
@@ -80,10 +81,10 @@ class MNPOTrainer(SimPOTrainer):
 
         losses_dpo = -F.logsigmoid(beta * logits)
 
-        losses_het = 0.1 * (pi_logratios - weighted_logratios) ** 2
+        losses_het = self.het_loss_weight * (pi_logratios - weighted_logratios) ** 2
 
-        # losses = losses_dpo + losses_het
-        losses = losses_dpo # for ablation
+        losses = losses_dpo + losses_het
+        # losses = losses_dpo # for ablation
 
         chosen_rewards = beta * (policy_chosen_logps - reference_chosen_logps).detach()
         rejected_rewards = beta * (policy_rejected_logps - reference_rejected_logps).detach()

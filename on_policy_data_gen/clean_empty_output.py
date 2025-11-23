@@ -1,6 +1,6 @@
 from datasets import load_from_disk, DatasetDict
 
-data_dir = "/hai/scratch/fangwu97/xu/SimPO_slurm/data/mnpo_iter3_armo_abl/pref"
+data_dir = "/hai/scratch/fangwu97/xu/SimPO_slurm/data/mnpo_iter3_armo_dpo_abl/pref"
 
 ds = load_from_disk(data_dir)
 train_ds = ds["train"]
