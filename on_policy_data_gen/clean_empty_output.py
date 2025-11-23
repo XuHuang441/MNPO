@@ -1,24 +1,36 @@
-from datasets import load_from_disk, DatasetDict
+from datasets import Dataset, DatasetDict
+import os
+import glob
 
+# ---- 你的原始数据目录 ----
 data_dir = "/hai/scratch/fangwu97/xu/SimPO_slurm/data/mnpo_iter2_armo_abl/pref"
 
-ds = load_from_disk(data_dir)
-train_ds = ds["train"]
+# 1. 找到 arrow 文件（一般在 train/ 目录下）
+arrow_files = glob.glob(os.path.join(data_dir, "**/*.arrow"), recursive=True)
+if not arrow_files:
+    raise FileNotFoundError(f"在 {data_dir} 下没有找到 .arrow 文件")
 
-# 定义一个过滤函数：如果all_generated_responses中任意元素为空字符串，就删除该行
+arrow_path = arrow_files[0]
+print(f"使用的 arrow 文件: {arrow_path}")
+
+# 2. 直接从 arrow 文件构建 Dataset（绕过损坏的 dataset_info）
+ds = Dataset.from_file(arrow_path)
+print(ds)
+
+# 3. 定义过滤条件：如果 all_generated_responses 中有任意一个元素是空，则丢弃该行
 def is_valid(row):
-    # 返回 True 表示保留，False 表示删除
-    # 判定条件：列表中不能出现 "" 或空白字符串
+    # 这里认为 空 / 全空格 / 换行 都算「空」
     return not any((r.strip() == "") for r in row["all_generated_responses"])
 
-# 过滤数据
-filtered = train_ds.filter(is_valid)
+original_len = len(ds)
+filtered = ds.filter(is_valid)
 
-removed_count = len(train_ds) - len(filtered)
+removed_count = original_len - len(filtered)
+print(f"原始数量: {original_len}")
 print(f"删除的行数: {removed_count}")
-print(f"原始数量: {len(train_ds)}, 过滤后数量: {len(filtered)}")
+print(f"过滤后数量: {len(filtered)}")
 
-# 保存新数据集
+# 4. 保存为新的 dataset（避免覆盖原始数据）
 new_path = data_dir + "_filtered"
 filtered_ds_dict = DatasetDict({"train": filtered})
 filtered_ds_dict.save_to_disk(new_path)
