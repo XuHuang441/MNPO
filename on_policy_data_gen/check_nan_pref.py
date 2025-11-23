@@ -1,7 +1,7 @@
 from datasets import load_from_disk, DatasetDict
 import math
 
-data_dir = "/hai/scratch/fangwu97/xu/SimPO_slurm/data/mnpo_iter3_armo_dpo_abl/pref_filtered"
+data_dir = "/hai/scratch/fangwu97/xu/SimPO_slurm/data/mnpo_iter4_armo_dpo_abl/pref"
 ds = load_from_disk(data_dir)      # 这是 DatasetDict
 train = ds["train"]                # 取出 train split
 

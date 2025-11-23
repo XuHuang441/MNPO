@@ -22,10 +22,10 @@ POLICY_MODEL_T_2=$MNPO_ROOT/outputsgemma-2-9b-it_mnpo_stage_2_armo_puredpoloss_b
 POLICY_MODEL_T_3=$MNPO_ROOT/outputs/gemma-2-9b-it_mnpo_stage_1_armo_inpo_iter1_20k
 REF_MODEL=$CACHE_DIR/google/gemma-2-9b-it                                      # ref model 路径
 
-DATA_SPLIT=$SIMPO_ROOT/data/gemma2_ufb_part1_20k/gemma2_ufb_part1_split3.jsonl
-GEN_DIR=$SIMPO_ROOT/datasets/gemma2_ultrafeedback/mnpo_iter3_armo_dpo_abl         # decode & post_process 输出目录
+DATA_SPLIT=$SIMPO_ROOT/data/gemma2_ufb_part2_20k/gemma2_ufb_part2_split1.jsonl
+GEN_DIR=$SIMPO_ROOT/datasets/gemma2_ultrafeedback/mnpo_iter4_armo_dpo_abl         # decode & post_process 输出目录
 SCORED_FILE=${GEN_DIR}_scored.jsonl                                            # armo 打分输出 + precompute 输入
-PREF_DIR=$SIMPO_ROOT/data/mnpo_iter3_armo_dpo_abl/pref # precompute 输出目录
+PREF_DIR=$SIMPO_ROOT/data/mnpo_iter4_armo_dpo_abl/pref # precompute 输出目录
 
 export HF_HOME=$SCRATCH_ROOT/hf_cache
 
@@ -50,12 +50,15 @@ stdbuf -oL -eL /hai/scratch/fangwu97/miniconda3/envs/inpo/bin/python -u -m on_po
 
 # pre
 /hai/scratch/fangwu97/miniconda3/envs/sim/bin/accelerate launch --num_processes=2 -m mnpo_scripts.precompute \
-    --run_name "mnpo_iter3_precompute" \
+    --run_name "mnpo_iter4_precompute" \
     --model_name_or_path $POLICY_MODEL \
     --ref_model $REF_MODEL \
     --train_dir $SCORED_FILE \
     --output_dir $PREF_DIR \
-    --history_paths $POLICY_MODEL_T_2 \
+    --history_paths $POLICY_MODEL_T_3 \
+        $POLICY_MODEL_T_2 \
         $POLICY_MODEL \
     --cache_dir $CACHE_DIR \
     --sanity_check False
+
+/hai/scratch/fangwu97/miniconda3/envs/sim/bin/python -u -m on_policy_data_gen.check_nan_pref
