@@ -10,11 +10,11 @@
 set -euo pipefail
 
 # ====== 1. 基本配置 ======
-MODEL_NAME="/hai/scratch/fangwu97/xu/MNPO/outputs/gemma-2-9b-it_mnpo_stage_2_skywork_beta3_ratio0.85_eta0.01_weights1-0_3pl_fixed"           # HF 上的模型名称 / 本地路径
-MODEL_BASENAME="gemma-2-9b-it_mnpo_stage_2_skywork_beta3_ratio0.85_eta0.01_weights1-0_3pl_fixed"              # 对外暴露的名称 & eval 中使用的名称
+MODEL_NAME="hai/scratch/fangwu97/xu/cache/models--HuggingFaceTB--SmolLM3-3B/snapshots/a07cc9a04f16550a088caea529712d1d335b0ac1"           # HF 上的模型名称 / 本地路径
+MODEL_BASENAME="SmolLM3-3B"              # 对外暴露的名称 & eval 中使用的名称
 PORT=8000                                   # vLLM HTTP 端口
 LOG_DIR="logs"
-TASK_SCRIPT="/hai/scratch/fangwu97/xu/MNPO/evalscope/run_minerva_task.py"  # 改成你自己的路径
+TASK_SCRIPT="/hai/scratch/fangwu97/xu/MNPO/evalscope/run_arena_hard_task.py"  # 改成你自己的路径
 
 mkdir -p "${LOG_DIR}"
 
