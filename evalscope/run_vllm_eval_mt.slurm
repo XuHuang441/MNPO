@@ -13,7 +13,7 @@ set -euo pipefail
 MODEL_NAME="/hai/scratch/fangwu97/xu/cache/SmolLM3-3B"           # HF 上的模型名称 / 本地路径
 MODEL_BASENAME="SmolLM3-3B"              # 对外暴露的名称 & eval 中使用的名称
 PORT=8010                                   # vLLM HTTP 端口
-LOG_DIR="logs"
+LOG_DIR="/hai/scratch/fangwu97/xu/MNPO/logs"
 
 mkdir -p "${LOG_DIR}"
 
