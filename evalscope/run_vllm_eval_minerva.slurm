@@ -10,7 +10,7 @@
 set -euo pipefail
 
 # ====== 1. 基本配置 ======
-MODEL_NAME="/hai/scratch/fangwu97/xu/cache/models--HuggingFaceTB--SmolLM3-3B/snapshots/a07cc9a04f16550a088caea529712d1d335b0ac1"           # HF 上的模型名称 / 本地路径
+MODEL_NAME="/hai/scratch/fangwu97/xu/cache/SmolLM3-3B"           # HF 上的模型名称 / 本地路径
 MODEL_BASENAME="SmolLM3-3B"              # 对外暴露的名称 & eval 中使用的名称
 PORT=8000                                   # vLLM HTTP 端口
 LOG_DIR="logs"
