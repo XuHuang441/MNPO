@@ -26,7 +26,7 @@ def main():
         eval_type=EvalType.SERVICE,
         datasets=['arena_hard'],
         eval_batch_size=12,
-        judge_worker_num=12,
+        judge_worker_num=18,
         judge_strategy=JudgeStrategy.AUTO,
 
         # judge 仍然走 OpenRouter 的 GPT-5-mini
