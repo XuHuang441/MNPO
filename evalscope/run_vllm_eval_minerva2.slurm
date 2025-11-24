@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --account=yejin
 #SBATCH -p yejin
-#SBATCH --gres=gpu:1
+#SBATCH --gres=gpu:2
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=128G
 #SBATCH --job-name=vllm_eval2
@@ -10,11 +10,11 @@
 set -euo pipefail
 
 # ====== 1. 基本配置 ======
-MODEL_NAME="/hai/scratch/fangwu97/xu/MNPO/outputs/gemma-2-9b-it_mnpo_stage_2_athene_beta1_ratio0.85_eta0.005_weights0.75-0.25"           # HF 上的模型名称 / 本地路径
-MODEL_BASENAME="gemma-2-9b-it_mnpo_stage_2_athene_beta1_ratio0.85_eta0.005_weights0.75-0.25"              # 对外暴露的名称 & eval 中使用的名称
+MODEL_NAME="/hai/scratch/fangwu97/huggingface/hub/models--allenai--Llama-3.1-Tulu-3-70B-DPO"           # HF 上的模型名称 / 本地路径
+MODEL_BASENAME="Llama-3.1-Tulu-3-70B-DPO"              # 对外暴露的名称 & eval 中使用的名称
 PORT=8001                                  # vLLM HTTP 端口
 LOG_DIR="logs"
-TASK_SCRIPT="/hai/scratch/fangwu97/xu/MNPO/evalscope/run_minerva_task.py"  # 改成你自己的路径
+TASK_SCRIPT="/hai/scratch/fangwu97/xu/MNPO/evalscope/run_arena_hard_task.py"  # 改成你自己的路径
 
 mkdir -p "${LOG_DIR}"
 
@@ -26,6 +26,7 @@ echo "$(date '+%Y-%m-%d %H:%M:%S') Starting vLLM server..." \
   --model "${MODEL_NAME}" \
   --served-model-name "${MODEL_BASENAME}" \
   --trust-remote-code \
+  --tensor-parallel-size 2 \
   --port "${PORT}" \
   > "${LOG_DIR}/vllm-${MODEL_BASENAME}-${PORT}.log" 2>&1 &
 
