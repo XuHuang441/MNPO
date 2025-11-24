@@ -35,21 +35,21 @@ echo "vLLM PID: ${VLLM_PID}" >> "${LOG_DIR}/judge-${MODEL_BASENAME}.out"
 VLLM_LOG="${LOG_DIR}/vllm-${MODEL_BASENAME}-${PORT}.log"
 
 echo "$(date '+%Y-%m-%d %H:%M:%S') Waiting for vLLM to finish startup (checking ${VLLM_LOG})..." \
-  >> "${LOG_DIR}/judge-${MODEL_BASENAME}.out"
+  >> "${LOG_DIR}/mt-${MODEL_BASENAME}.out"
 
 while true; do
   if [ -f "$VLLM_LOG" ] && grep -q "Application startup complete." "$VLLM_LOG"; then
     echo "$(date '+%Y-%m-%d %H:%M:%S') vLLM startup confirmed." \
-      >> "${LOG_DIR}/judge-${MODEL_BASENAME}.out"
+      >> "${LOG_DIR}/mt-${MODEL_BASENAME}.out"
     break
   fi
   echo "$(date '+%Y-%m-%d %H:%M:%S') Still waiting for vLLM startup (checking ${VLLM_LOG})..." \
-    >> "${LOG_DIR}/judge-${MODEL_BASENAME}.out"
+    >> "${LOG_DIR}/mt-${MODEL_BASENAME}.out"
   sleep 10
 done
 
 echo "$(date '+%Y-%m-%d %H:%M:%S') Starting eval..." \
-  >> "${LOG_DIR}/judge-${MODEL_BASENAME}.out"
+  >> "${LOG_DIR}/mt-${MODEL_BASENAME}.out"
 
 python /hai/scratch/fangwu97/xu/FastChat/fastchat/llm_judge/gen_api_answer.py \
     --model "${MODEL_BASENAME}" \
@@ -58,18 +58,18 @@ python /hai/scratch/fangwu97/xu/FastChat/fastchat/llm_judge/gen_api_answer.py \
     --max-tokens 4096 \
     --openai-api-base "http://127.0.0.1:${PORT}/v1" \
     --openai-api-key "EMPTY" \
-  >> "${LOG_DIR}/judge-${MODEL_BASENAME}.out" 2>&1
+  >> "${LOG_DIR}/mt-${MODEL_BASENAME}.out" 2>&1
 
 EVAL_STATUS=$?
 
 # ====== 5. 收尾：关掉 vLLM 进程 ======
 echo "$(date '+%Y-%m-%d %H:%M:%S') Killing vLLM (PID=${VLLM_PID})..." \
-  >> "${LOG_DIR}/judge-${MODEL_BASENAME}.out"
+  >> "${LOG_DIR}/mt-${MODEL_BASENAME}.out"
 kill "${VLLM_PID}" || true
 
 wait "${VLLM_PID}" || true
 
 echo "$(date '+%Y-%m-%d %H:%M:%S') Done. Eval exit code: ${EVAL_STATUS}" \
-  >> "${LOG_DIR}/judge-${MODEL_BASENAME}.out"
+  >> "${LOG_DIR}/mt-${MODEL_BASENAME}.out"
 
 exit "${EVAL_STATUS}"
