@@ -1,6 +1,9 @@
 
 API_KEY=$OPENAI_API_KEY
 
+WORKDIR="/hai/scratch/fangwu97/xu/FastChat/fastchat/llm_judge"
+cd "${WORKDIR}"
+
 /hai/scratch/fangwu97/miniconda3/envs/mt/bin/python gen_api_answer.py \
     --model allenai/olmo-2-0325-32b-instruct \
     --bench-name mt_bench \
