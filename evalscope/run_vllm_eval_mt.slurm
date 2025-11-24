@@ -51,7 +51,7 @@ done
 echo "$(date '+%Y-%m-%d %H:%M:%S') Starting eval..." \
   >> "${LOG_DIR}/mt-${MODEL_BASENAME}.out"
 
-python /hai/scratch/fangwu97/xu/FastChat/fastchat/llm_judge/gen_api_answer.py \
+/hai/scratch/fangwu97/miniconda3/envs/mt/bin/python /hai/scratch/fangwu97/xu/FastChat/fastchat/llm_judge/gen_api_answer.py \
     --model "${MODEL_BASENAME}" \
     --bench-name mt_bench \
     --parallel 12 \
