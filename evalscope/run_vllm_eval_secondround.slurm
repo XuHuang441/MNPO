@@ -53,6 +53,8 @@ echo "$(date '+%Y-%m-%d %H:%M:%S') Starting eval..." \
 /hai/scratch/fangwu97/miniconda3/envs/evalscope/bin/evalscope eval \
   --model "${MODEL_BASENAME}" \
   --generation-config '{"top-p":0.8,"temperature":0.7,"max_tokens":6000}' \
+  --eval_batch_size 20 \
+  --judge_worker_num 18 \
   --api-url "http://127.0.0.1:${PORT}/v1" \
   --api-key EMPTY \
   --eval-type openai_api \
