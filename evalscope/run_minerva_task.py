@@ -31,12 +31,12 @@ def main():
 
         # judge 仍然走 OpenRouter 的 GPT-5-mini
         judge_model_args={
-            'model_id': 'gpt-5-mini',
+            'model_id': 'gpt-5-nano',
             'generation_config': {"reasoning_effort": "minimal"},
             'api_url': 'https://openrouter.ai/api/v1',
             'api_key': openrouter_api_key,
         },
-        # use_cache="..."
+        use_cache="/hai/scratch/fangwu97/xu/MNPO/outputs/20251123_164633"
     )
 
     run_task(task_cfg=task_cfg)
