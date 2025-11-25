@@ -32,7 +32,7 @@ def main():
         datasets=[ 'gpqa_diamond'],
         eval_batch_size=20,
 
-        use_cache="/hai/scratch/fangwu97/xu/MNPO/outputs/20251125_053202"
+        # use_cache="/hai/scratch/fangwu97/xu/MNPO/outputs/20251125_053202"
     )
 
     run_task(task_cfg=task_cfg)
