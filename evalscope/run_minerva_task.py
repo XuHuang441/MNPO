@@ -31,7 +31,7 @@ def main():
 
         # judge 仍然走 OpenRouter 的 GPT-5-mini
         judge_model_args={
-            'model_id': 'gpt-4.1-mini',
+            'model_id': 'gpt-4.1-nano',
             # 'generation_config': {"reasoning_effort": "minimal"},
             'api_url': 'https://openrouter.ai/api/v1',
             'api_key': openrouter_api_key,
