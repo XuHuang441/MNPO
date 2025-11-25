@@ -3,6 +3,10 @@
 WORKDIR="/hai/scratch/fangwu97/xu/FastChat/fastchat/llm_judge"
 cd "${WORKDIR}"
 
+#/hai/scratch/fangwu97/miniconda3/envs/mt/bin/python gen_judgment.py \
+#    --model-list olmo-2-0325-32b-instruct gemma-2-9b-it_mnpo_stage_2_armo_beta1_ratio0.8_eta0.005_weights0.75-0.25_3pl gemma-2-9b-it_mnpo_stage_2_athene_beta1_ratio0.85_eta0.005_weights0.75-0.25 gemma-2-9b-it_mnpo_stage_2_skywork_beta3_ratio0.85_eta0.01_weights1-0_3pl_fixed Llama-3.1-Tulu-3-70B-DPO SmolLM3-3B \
+#    --parallel 12
+
 /hai/scratch/fangwu97/miniconda3/envs/mt/bin/python gen_judgment.py \
-    --model-list olmo-2-0325-32b-instruct gemma-2-9b-it_mnpo_stage_2_armo_beta1_ratio0.8_eta0.005_weights0.75-0.25_3pl gemma-2-9b-it_mnpo_stage_2_athene_beta1_ratio0.85_eta0.005_weights0.75-0.25 gemma-2-9b-it_mnpo_stage_2_skywork_beta3_ratio0.85_eta0.01_weights1-0_3pl_fixed Llama-3.1-Tulu-3-70B-DPO SmolLM3-3B \
+    --model-list gemma-2-9b-it_mnpo_stage_2_armo_beta1_ratio0.8_eta0.005_weights0.75-0.25_3pl gemma-2-9b-it_mnpo_stage_2_athene_beta1_ratio0.85_eta0.005_weights0.75-0.25 gemma-2-9b-it_mnpo_stage_2_skywork_beta3_ratio0.85_eta0.01_weights1-0_3pl_fixed \
     --parallel 12
