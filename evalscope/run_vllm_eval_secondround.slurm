@@ -13,6 +13,7 @@ set -euo pipefail
 MODEL_NAME="/hai/scratch/fangwu97/xu/MNPO/outputs/gemma-2-9b-it_mnpo_stage_2_skywork_beta3_ratio0.85_eta0.01_weights1-0_3pl_fixed"           # HF 上的模型名称 / 本地路径
 MODEL_BASENAME="gemma-2-9b-it_mnpo_stage_2_skywork_beta3_ratio0.85_eta0.01_weights1-0_3pl_fixed"              # 对外暴露的名称 & eval 中使用的名称
 PORT=8000                                   # vLLM HTTP 端口
+TASK_SCRIPT="/hai/scratch/fangwu97/xu/MNPO/evalscope/run_rule_based_task.py"
 LOG_DIR="logs"
 mkdir -p "${LOG_DIR}"
 
@@ -50,15 +51,9 @@ done
 echo "$(date '+%Y-%m-%d %H:%M:%S') Starting eval..." \
   >> "${LOG_DIR}/judge-${MODEL_BASENAME}.out"
 
-/hai/scratch/fangwu97/miniconda3/envs/evalscope/bin/evalscope eval \
-  --model "${MODEL_BASENAME}" \
-  --generation-config '{"top-p":0.8,"temperature":0.7,"max_tokens":6000}' \
-  --eval_batch_size 20 \
-  --judge_worker_num 18 \
-  --api-url "http://127.0.0.1:${PORT}/v1" \
-  --api-key EMPTY \
-  --eval-type openai_api \
-  --datasets ifeval gpqa_diamond \
+/hai/scratch/fangwu97/miniconda3/envs/evalscope/bin/python "${TASK_SCRIPT}" \
+  --model-name "${MODEL_BASENAME}" \
+  --port "${PORT}" \
   >> "${LOG_DIR}/judge-${MODEL_BASENAME}.out" 2>&1
 
 EVAL_STATUS=$?
