@@ -10,8 +10,8 @@
 set -euo pipefail
 
 # ====== 1. 基本配置 ======
-MODEL_NAME="/hai/scratch/fangwu97/xu/MNPO/outputs/gemma-2-9b-it_mnpo_stage_2_skywork_beta3_ratio0.85_eta0.01_weights1-0_3pl_fixed"           # HF 上的模型名称 / 本地路径
-MODEL_BASENAME="gemma-2-9b-it_mnpo_stage_2_skywork_beta3_ratio0.85_eta0.01_weights1-0_3pl_fixed"              # 对外暴露的名称 & eval 中使用的名称
+MODEL_NAME="/hai/scratch/fangwu97/xu/MNPO/outputs/gemma-2-9b-it_mnpo_stage_2_armo_beta1_ratio0.8_eta0.005_weights0.75-0.25_3pl"           # HF 上的模型名称 / 本地路径
+MODEL_BASENAME="gemma-2-9b-it_mnpo_stage_2_armo_beta1_ratio0.8_eta0.005_weights0.75-0.25_3pl"              # 对外暴露的名称 & eval 中使用的名称
 PORT=8000                                   # vLLM HTTP 端口
 TASK_SCRIPT="/hai/scratch/fangwu97/xu/MNPO/evalscope/run_rule_based_task.py"
 LOG_DIR="logs"
