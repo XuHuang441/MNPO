@@ -4,15 +4,15 @@
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=128G
-#SBATCH --job-name=vllm_eval
-#SBATCH --output=logs/slurm_vllm_eval_%j.log
+#SBATCH --job-name=vllm_eval_new
+#SBATCH --output=logs/slurm_vllm_eval_new_%j.log
 
 set -euo pipefail
 
 # ====== 1. 基本配置 ======
-MODEL_NAME="/hai/scratch/fangwu97/xu/MNPO/outputs/gemma-2-9b-it_mnpo_stage_2_armo_beta1_ratio0.8_eta0.005_weights0.75-0.25_3pl"           # HF 上的模型名称 / 本地路径
-MODEL_BASENAME="gemma-2-9b-it_mnpo_stage_2_armo_beta1_ratio0.8_eta0.005_weights0.75-0.25_3pl"              # 对外暴露的名称 & eval 中使用的名称
-PORT=9000                                   # vLLM HTTP 端口
+MODEL_NAME="/hai/scratch/fangwu97/xu/MNPO/outputs/gemma-2-9b-it_mnpo_stage_2_athene_beta1_ratio0.85_eta0.005_weights0.75-0.25"           # HF 上的模型名称 / 本地路径
+MODEL_BASENAME="gemma-2-9b-it_mnpo_stage_2_athene_beta1_ratio0.85_eta0.005_weights0.75-0.25"              # 对外暴露的名称 & eval 中使用的名称
+PORT=9025                                  # vLLM HTTP 端口
 TASK_SCRIPT="/hai/scratch/fangwu97/xu/MNPO/evalscope/run_rule_based_task.py"
 LOG_DIR="logs"
 mkdir -p "${LOG_DIR}"
