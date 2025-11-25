@@ -17,7 +17,7 @@ def main():
         # 这里的 model 名字要和 vLLM 的 --served-model-name 一致
         model=args.model_name,
         generation_config={
-            "max_tokens": 6000,
+            "max_tokens": 5000,
             "top-p": 0.8,
             "temperature": 0.7
         },
@@ -28,10 +28,11 @@ def main():
         api_key="EMPTY",
 
         eval_type=EvalType.SERVICE,
-        datasets=['ifeval', 'gpqa_diamond'],
+        # datasets=['ifeval', 'gpqa_diamond'],
+        datasets=[ 'gpqa_diamond'],
         eval_batch_size=20,
 
-        # use_cache="/hai/scratch/fangwu97/xu/MNPO/outputs/20251124_162536"
+        use_cache="/hai/scratch/fangwu97/xu/MNPO/outputs/20251125_053202"
     )
 
     run_task(task_cfg=task_cfg)
