@@ -33,7 +33,7 @@ def main():
         judge_model_args={
             'model_id': 'gpt-4.1',
             # 'generation_config': {"reasoning_effort": "minimal"},
-            'generation_config': {'max_tokens': 4096},
+            'generation_config': {'max_tokens': 32000},
             'api_url': 'https://openrouter.ai/api/v1',
             'api_key': openrouter_api_key,
         },
