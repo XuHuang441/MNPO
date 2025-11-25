@@ -25,8 +25,6 @@ echo "$(date '+%Y-%m-%d %H:%M:%S') Starting vLLM server..." \
   --served-model-name "${MODEL_BASENAME}" \
   --trust-remote-code \
   --port "${PORT}" \
-  --temperature 0.7 \
-  --top-p 0.95 \
   > "${LOG_DIR}/vllm-${MODEL_BASENAME}-${PORT}.log" 2>&1 &
 
 VLLM_PID=$!
@@ -54,6 +52,7 @@ echo "$(date '+%Y-%m-%d %H:%M:%S') Starting eval..." \
 
 /hai/scratch/fangwu97/miniconda3/envs/evalscope/bin/evalscope eval \
   --model "${MODEL_BASENAME}" \
+  --generation-config '{"top-p":0.8,"temperature":0.7,"max_tokens":6000}' \
   --api-url "http://127.0.0.1:${PORT}/v1" \
   --api-key EMPTY \
   --eval-type openai_api \
