@@ -36,7 +36,7 @@ def main():
             'api_url': 'https://openrouter.ai/api/v1',
             'api_key': openrouter_api_key,
         },
-        # use_cache="..."
+        use_cache="/hai/scratch/fangwu97/xu/MNPO/outputs/20251124_162536"
     )
 
     run_task(task_cfg=task_cfg)
