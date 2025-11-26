@@ -18,7 +18,7 @@ from transformers import (
 from trl.trainer.utils import DPODataCollatorWithPadding, pad_to_length
 import torch.nn as nn
 import os
-from precompute_trainer import PreferenceDataCollatorWithPadding
+from mnpo_scripts.precompute_trainer import PreferenceDataCollatorWithPadding
 
 logger = logging.getLogger(__name__)
 
