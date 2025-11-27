@@ -1,6 +1,8 @@
 import json
 import random
 
+# 把2w条分成3份
+
 input_path = "/hai/scratch/fangwu97/xu/SimPO_slurm/data/gemma2_ufb_part2.jsonl"
 out1 = "/hai/scratch/fangwu97/xu/SimPO_slurm/data/gemma2_ufb_part2_20k/gemma2_ufb_part2_split1.jsonl"
 out2 = "/hai/scratch/fangwu97/xu/SimPO_slurm/data/gemma2_ufb_part2_20k/gemma2_ufb_part2_split2.jsonl"
