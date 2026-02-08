@@ -35,7 +35,7 @@ stdbuf -oL -eL /hai/scratch/fangwu97/miniconda3/envs/inpo/bin/python -u -m on_po
     --seeds 13 21 42 79 100 \
     --output_dir $GEN_DIR \
     --cache_dir $CACHE_DIR \
-    --num_gpu 1
+    --num_gpu 2
 
 /hai/scratch/fangwu97/miniconda3/envs/inpo/bin/python on_policy_data_gen/post_process.py \
     --generation_file_dir $GEN_DIR
@@ -48,7 +48,7 @@ stdbuf -oL -eL /hai/scratch/fangwu97/miniconda3/envs/inpo/bin/python -u -m on_po
     --batch_size 256
 
 # pre
-/hai/scratch/fangwu97/miniconda3/envs/sim/bin/accelerate launch --num_processes=1 -m mnpo_scripts.precompute \
+/hai/scratch/fangwu97/miniconda3/envs/sim/bin/accelerate launch --num_processes=2 -m mnpo_scripts.precompute \
     --run_name "mnpo_iter1_precompute" \
     --model_name_or_path $POLICY_MODEL \
     --ref_model $REF_MODEL \
