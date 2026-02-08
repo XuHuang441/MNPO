@@ -1,0 +1,69 @@
+# ================================
+# Model Arguments
+# ================================
+model_name_or_path: /hai/scratch/fangwu97/xu/MNPO/outputs/gemma-2-2b-it
+torch_dtype: null
+attn_implementation: eager
+
+# ================================
+# Data & Preprocessing
+# ================================
+
+dataset_mixer:
+  /hai/scratch/fangwu97/xu/SimPO_slurm/data/mnpo_iter1_gemma2_athene/pref_filtered: 1.0
+
+dataset_splits:
+  - train
+
+preprocessing_num_workers: 12
+
+# ================================
+# Training Parameters
+# ================================
+bf16: true
+eta: 0.005
+ratio: 0.3333
+max_history_t: 2
+beta: 0.1
+learning_rate: 5.0e-7
+lr_scheduler_type: cosine
+warmup_ratio: 0.1
+optim: adamw_torch
+seed: 42
+
+gradient_accumulation_steps: 16
+gradient_checkpointing: true
+gradient_checkpointing_kwargs:
+  use_reentrant: false
+
+num_train_epochs: 1
+per_device_train_batch_size: 2
+per_device_eval_batch_size: 2
+max_length: 2048
+max_prompt_length: 1800
+
+# ================================
+# Evaluation & Logging
+# ================================
+do_eval: false
+logging_steps: 5
+log_level: info
+#eval_steps: 5
+#metric_for_best_model: eval_loss
+#load_best_model_at_end: true
+
+# ================================
+# Saving & Reporting
+# ================================
+save_strategy: "no"
+save_total_limit: 1
+push_to_hub: false
+
+report_to:
+  - wandb
+
+# ================================
+# Output
+# ================================
+output_dir: /hai/scratch/fangwu97/xu/MNPO/outputs/gemma-2-2b-it_mnpo_stage_1_athene_dpo_beta0.1
+run_name: gemma-2-2b-it_mnpo_stage_1_athene_dpo_beta0.1
