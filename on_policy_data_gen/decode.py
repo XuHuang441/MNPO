@@ -7,103 +7,109 @@ import json
 from tqdm import tqdm
 import sys
 
-parser = argparse.ArgumentParser(description='Decode with vllm')
-parser.add_argument('--data_dir', type=str, default="HuggingFaceH4/ultrafeedback_binarized",
-                    help='Directory containing the data')
-parser.add_argument('--model', type=str, default="google/gemma-2-9b-it",
-                    help='Path to the LLM model')
-parser.add_argument('--temperature', type=float, default=0.8,
-                    help='Temperature for sampling')
-parser.add_argument('--top_p', type=float, default=0.95,
-                    help='Top-p probability for sampling')
-parser.add_argument('--max_tokens', type=int, default=4096,
-                    help='Maximum number of tokens to generate')
-parser.add_argument('--output_dir', type=str, default="datasets/gemma2_ultrafeedback",
-                    help='Output directory')
-parser.add_argument('--num_gpu', type=int, default=4)
-parser.add_argument('--sanity_check', action='store_true', help="Enable sanity check (only use 100 samples)")
-parser.add_argument('--cache_dir', type=str, default=None,
-                    help='Cache directory for model and dataset')
-parser.add_argument('--seeds', type=int, nargs='+', default=[42],
-                    help='A list of random seeds to run')
-args = parser.parse_args()
+def main():
 
-print(args)
+    parser = argparse.ArgumentParser(description='Decode with vllm')
+    parser.add_argument('--data_dir', type=str, default="HuggingFaceH4/ultrafeedback_binarized",
+                        help='Directory containing the data')
+    parser.add_argument('--model', type=str, default="google/gemma-2-9b-it",
+                        help='Path to the LLM model')
+    parser.add_argument('--temperature', type=float, default=0.8,
+                        help='Temperature for sampling')
+    parser.add_argument('--top_p', type=float, default=0.95,
+                        help='Top-p probability for sampling')
+    parser.add_argument('--max_tokens', type=int, default=4096,
+                        help='Maximum number of tokens to generate')
+    parser.add_argument('--output_dir', type=str, default="datasets/gemma2_ultrafeedback",
+                        help='Output directory')
+    parser.add_argument('--num_gpu', type=int, default=4)
+    parser.add_argument('--sanity_check', action='store_true', help="Enable sanity check (only use 100 samples)")
+    parser.add_argument('--cache_dir', type=str, default=None,
+                        help='Cache directory for model and dataset')
+    parser.add_argument('--seeds', type=int, nargs='+', default=[42],
+                        help='A list of random seeds to run')
+    args = parser.parse_args()
 
-import torch
+    print(args)
 
-print("[INFO] CUDA_VISIBLE_DEVICES =", os.environ.get("CUDA_VISIBLE_DEVICES", "(not set)"))
-n_gpu = torch.cuda.device_count()
-print("[INFO] torch.cuda.device_count() =", n_gpu)
-for i in range(n_gpu):
-    print(f"[INFO] GPU {i}: {torch.cuda.get_device_name(i)}")
+    import torch
 
-if n_gpu < args.num_gpu:
-    print(f"[ERROR] Need at least {args.num_gpu} visible GPUs, but only {n_gpu} found.")
-    sys.exit(1)
+    print("[INFO] CUDA_VISIBLE_DEVICES =", os.environ.get("CUDA_VISIBLE_DEVICES", "(not set)"))
+    n_gpu = torch.cuda.device_count()
+    print("[INFO] torch.cuda.device_count() =", n_gpu)
+    for i in range(n_gpu):
+        print(f"[INFO] GPU {i}: {torch.cuda.get_device_name(i)}")
 
-data_dir = args.data_dir
-llm = LLM(
-    model=args.model,
-    tensor_parallel_size=args.num_gpu,
-    download_dir=args.cache_dir,
-    gpu_memory_utilization=0.9,  # Allow VLLM to use 90% of GPU memory
-)
-tokenizer = llm.get_tokenizer()
+    if n_gpu < args.num_gpu:
+        print(f"[ERROR] Need at least {args.num_gpu} visible GPUs, but only {n_gpu} found.")
+        sys.exit(1)
 
-if os.path.exists(data_dir):
-    # If the input is an existing local file path
-    print("Detected local file path, loading local file...")
-    # Use the 'json' loader, which supports both .json and .jsonl files
-    train_dataset = load_dataset("json", data_files=data_dir, split="train")
-else:
-    # If not a local file path, assume it is a dataset name on Hugging Face Hub
-    print("No local file detected, trying to load from Hugging Face Hub...")
-    train_dataset = load_dataset(data_dir, split="train")
+    data_dir = args.data_dir
+    llm = LLM(
+        model=args.model,
+        tensor_parallel_size=args.num_gpu,
+        download_dir=args.cache_dir,
+        gpu_memory_utilization=0.9,  # Allow VLLM to use 90% of GPU memory
+        enable_prefix_caching=True,
+    )
+    tokenizer = llm.get_tokenizer()
 
-# If sanity check is enabled, only select a small number of samples
-if args.sanity_check:
-    print("Performing sanity check, using only 100 samples.")
-    train_dataset = train_dataset.select(range(min(len(train_dataset), 100)))
+    if os.path.exists(data_dir):
+        # If the input is an existing local file path
+        print("Detected local file path, loading local file...")
+        # Use the 'json' loader, which supports both .json and .jsonl files
+        train_dataset = load_dataset("json", data_files=data_dir, split="train")
+    else:
+        # If not a local file path, assume it is a dataset name on Hugging Face Hub
+        print("No local file detected, trying to load from Hugging Face Hub...")
+        train_dataset = load_dataset(data_dir, split="train")
 
-prompts = sorted(list(set(train_dataset['prompt'])))
+    # If sanity check is enabled, only select a small number of samples
+    if args.sanity_check:
+        print("Performing sanity check, using only 100 samples.")
+        train_dataset = train_dataset.select(range(min(len(train_dataset), 100)))
 
-conversations = [tokenizer.apply_chat_template([{'role': 'user', 'content': prompt}], tokenize=False, add_generation_prompt=True) for prompt in prompts]
+    prompts = sorted(list(set(train_dataset['prompt'])))
 
-for seed in args.seeds:
-    print(f"\n--- Processing for seed {seed} ---")
+    conversations = [tokenizer.apply_chat_template([{'role': 'user', 'content': prompt}], tokenize=False, add_generation_prompt=True) for prompt in prompts]
 
-    sampling_params = SamplingParams(temperature=args.temperature,
-                                     top_p=args.top_p,
-                                     max_tokens=args.max_tokens,
-                                     seed=seed,)
-    output_data = []
+    for seed in args.seeds:
+        print(f"\n--- Processing for seed {seed} ---")
 
-    print(f"Submitting {len(conversations)} prompts to vLLM in a single batch...")
+        sampling_params = SamplingParams(temperature=args.temperature,
+                                         top_p=args.top_p,
+                                         max_tokens=args.max_tokens,
+                                         seed=seed,)
+        output_data = []
 
-    try:
+        print(f"Submitting {len(conversations)} prompts to vLLM in a single batch...")
 
-        all_outputs = llm.generate(conversations, sampling_params)
+        try:
 
-        print("Generation complete. Processing outputs...")
+            all_outputs = llm.generate(conversations, sampling_params)
 
-        for i, output in enumerate(tqdm(all_outputs)):
-            output_data.append({
-                'prompt': prompts[i],
-                "format_prompt": output.prompt,
-                'generated_text': output.outputs[0].text,
-            })
+            print("Generation complete. Processing outputs...")
 
-    except Exception as e:
-        print(f"Generation failed with error: {e}")
+            for i, output in enumerate(tqdm(all_outputs)):
+                output_data.append({
+                    'prompt': prompts[i],
+                    "format_prompt": output.prompt,
+                    'generated_text': output.outputs[0].text,
+                })
 
-    output_file = f'output_{seed}.json'
-    if not os.path.exists(args.output_dir):
-        os.makedirs(args.output_dir)
+        except Exception as e:
+            print(f"Generation failed with error: {e}")
 
-    with open(os.path.join(args.output_dir, output_file), 'w') as f:
-        json.dump(output_data, f, indent=4)
+        output_file = f'output_{seed}.json'
+        if not os.path.exists(args.output_dir):
+            os.makedirs(args.output_dir)
 
-    print(f"Outputs saved to {os.path.join(args.output_dir, output_file)}")
+        with open(os.path.join(args.output_dir, output_file), 'w') as f:
+            json.dump(output_data, f, indent=4)
 
-print("\nAll seeds processed.")
+        print(f"Outputs saved to {os.path.join(args.output_dir, output_file)}")
+
+    print("\nAll seeds processed.")
+
+if __name__ == "__main__":
+    main()
