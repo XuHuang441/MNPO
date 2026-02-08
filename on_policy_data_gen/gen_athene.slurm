@@ -12,7 +12,7 @@
 # iter1
 stdbuf -oL -eL /hai/scratch/fangwu97/miniconda3/envs/inpo/bin/python -u -m on_policy_data_gen.decode \
         --data_dir /hai/scratch/fangwu97/xu/SimPO_slurm/data/gemma2_ufb_part1_20k/gemma2_ufb_part1_split1.jsonl \
-        --model /hai/scratch/fangwu97/xu/MNPO/outputs/gemma-2-2b-it \
+        --model /hai/scratch/fangwu97/xu/cache/google/gemma-2-9b-it/ \
         --seeds 13 21 42 79 100 \
         --output_dir /hai/scratch/fangwu97/xu/SimPO_slurm/datasets/test \
         --cache_dir /hai/scratch/fangwu97/xu/cache \
@@ -36,3 +36,7 @@ stdbuf -oL -eL /hai/scratch/fangwu97/miniconda3/envs/inpo/bin/python -u -m on_po
 #        --output_dir /hai/scratch/fangwu97/xu/SimPO_slurm/datasets/gemma2_ultrafeedback/mnpo_iter3_athene \
 #        --cache_dir /hai/scratch/fangwu97/xu/cache \
 #        --num_gpu 2
+
+
+# ------------------------------------------modules
+# --model /hai/scratch/fangwu97/xu/MNPO/outputs/gemma-2-2b-it \
