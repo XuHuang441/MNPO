@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --account=yejin
 #SBATCH -p yejin-lo
-#SBATCH --gres=gpu:1
+#SBATCH --gres=gpu:2
 #SBATCH --job-name=mpo_infer
 #SBATCH --output=logs/output_iathene.log
 #SBATCH --error=logs/output_iathene.err
@@ -17,7 +17,7 @@ stdbuf -oL -eL /hai/scratch/fangwu97/miniconda3/envs/inpo/bin/python -u -m on_po
         --output_dir /hai/scratch/fangwu97/xu/SimPO_slurm/datasets/test \
         --cache_dir /hai/scratch/fangwu97/xu/cache \
         --sanity_check \
-        --num_gpu 1
+        --num_gpu 2
 
 # iter2
 #stdbuf -oL -eL /hai/scratch/fangwu97/miniconda3/envs/inpo/bin/python -u -m on_policy_data_gen.decode \

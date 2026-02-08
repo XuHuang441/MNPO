@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --account=yejin
 #SBATCH -p yejin-lo
-#SBATCH --gres=gpu:1
+#SBATCH --gres=gpu:2
 #SBATCH --job-name=pre_mnpo
 #SBATCH --output=output_pre_mnpo.log
 #SBATCH --mem=128G
