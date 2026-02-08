@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --account=yejin
 #SBATCH -p yejin-lo
-#SBATCH --gres=gpu:2
+#SBATCH --gres=gpu:1
 #SBATCH --job-name=mpo_infer
 #SBATCH --output=logs/output_iathene.log
 #SBATCH --error=logs/output_iathene.err
@@ -12,12 +12,12 @@
 # iter1
 stdbuf -oL -eL /hai/scratch/fangwu97/miniconda3/envs/inpo/bin/python -u -m on_policy_data_gen.decode \
         --data_dir /hai/scratch/fangwu97/xu/SimPO_slurm/data/gemma2_ufb_part1_20k/gemma2_ufb_part1_split1.jsonl \
-        --model /hai/scratch/fangwu97/xu/cache/google/gemma-2-9b-it/ \
+        --model /hai/scratch/fangwu97/xu/MNPO/outputs/gemma-2-2b-it \
         --seeds 13 21 42 79 100 \
         --output_dir /hai/scratch/fangwu97/xu/SimPO_slurm/datasets/test \
         --cache_dir /hai/scratch/fangwu97/xu/cache \
         --sanity_check \
-        --num_gpu 2
+        --num_gpu 1
 
 # iter2
 #stdbuf -oL -eL /hai/scratch/fangwu97/miniconda3/envs/inpo/bin/python -u -m on_policy_data_gen.decode \
@@ -40,3 +40,4 @@ stdbuf -oL -eL /hai/scratch/fangwu97/miniconda3/envs/inpo/bin/python -u -m on_po
 
 # ------------------------------------------modules
 # --model /hai/scratch/fangwu97/xu/MNPO/outputs/gemma-2-2b-it \
+# --model /hai/scratch/fangwu97/xu/cache/google/gemma-2-9b-it/ \
