@@ -3,7 +3,8 @@
 #SBATCH -p yejin-lo
 #SBATCH --gres=gpu:2
 #SBATCH --job-name=pre_mnpo
-#SBATCH --output=output_pre_mnpo.log
+#SBATCH --output=logs/output_pre_mnpo.log
+#SBATCH --error=logs/output_pre_mnpo.err
 #SBATCH --mem=128G
 
 set -e
