@@ -1,10 +1,11 @@
-from vllm import LLM, SamplingParams
 from datasets import load_dataset, load_from_disk
 import os
 os.environ["VLLM_ATTENTION_BACKEND"] = "FLASHINFER" # this is recommended for gemma-2 models; otherwise it is not needed
+from vllm import LLM, SamplingParams
 import argparse
 import json
 from tqdm import tqdm
+import sys
 
 parser = argparse.ArgumentParser(description='Decode with vllm')
 parser.add_argument('--data_dir', type=str, default="HuggingFaceH4/ultrafeedback_binarized",
@@ -21,7 +22,6 @@ parser.add_argument('--output_dir', type=str, default="datasets/gemma2_ultrafeed
                     help='Output directory')
 parser.add_argument('--num_gpu', type=int, default=4)
 parser.add_argument('--sanity_check', action='store_true', help="Enable sanity check (only use 100 samples)")
-parser.add_argument('--batch_size', type=int, default=8)
 parser.add_argument('--cache_dir', type=str, default=None,
                     help='Cache directory for model and dataset')
 parser.add_argument('--seeds', type=int, nargs='+', default=[42],
@@ -29,6 +29,18 @@ parser.add_argument('--seeds', type=int, nargs='+', default=[42],
 args = parser.parse_args()
 
 print(args)
+
+import torch
+
+print("[INFO] CUDA_VISIBLE_DEVICES =", os.environ.get("CUDA_VISIBLE_DEVICES", "(not set)"))
+n_gpu = torch.cuda.device_count()
+print("[INFO] torch.cuda.device_count() =", n_gpu)
+for i in range(n_gpu):
+    print(f"[INFO] GPU {i}: {torch.cuda.get_device_name(i)}")
+
+if n_gpu < args.num_gpu:
+    print(f"[ERROR] Need at least {args.num_gpu} visible GPUs, but only {n_gpu} found.")
+    sys.exit(1)
 
 data_dir = args.data_dir
 llm = LLM(
